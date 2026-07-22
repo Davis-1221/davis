@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Davis · 个人站点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0A0A0B; --paper:#FFFFFF; --mist:#FAFAFA;
+    --line:#E5E5E5; --blue:#2574EB; --blue-soft:#60A5FA;
+    --t1:#0A0A0B; --t2:#3F3F46; --t3:#6B6B6B; --t4:#71717A; --t5:#9CA3AF; --t6:#A1A1AA;
+    --radius:12px;
+    --sans:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --mono:'Roboto Mono','SFMono-Regular',Consolas,'Liberation Mono',monospace;
+    --maxw:1280px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--body);color:var(--t2);background:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.5;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 80px;}
+
+  /* ---------- Header ---------- */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:saturate(160%) blur(8px);border-bottom:1px solid var(--line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  .wordmark{display:flex;align-items:baseline;gap:10px;}
+  .wordmark .name{font-family:var(--sans);font-weight:600;font-size:18px;color:var(--ink);letter-spacing:-.01em;}
+  .wordmark .mail{font-family:var(--mono);font-size:12px;color:var(--t4);}
+  .menu{display:flex;align-items:center;gap:28px;}
+  .menu a{font-size:15px;color:var(--ink);transition:color .15s;}
+  .menu a:hover{color:var(--blue);}
+  .menu a.active{color:var(--blue);}
+  .menu .gh{font-family:var(--mono);font-size:13px;color:var(--t3);border:1px solid var(--line);padding:6px 12px;border-radius:8px;}
+  .menu .gh:hover{color:var(--blue);border-color:var(--blue);}
+  .burger{display:none;}
+
+  /* ---------- Views ---------- */
+  .view{display:none;}
+  .view.active{display:block;animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  /* ---------- Hero (dark) ---------- */
+  .hero{background:var(--ink);color:#fff;padding:140px 0 120px;}
+  .hero .kicker{font-family:var(--mono);font-size:13px;color:var(--blue-soft);margin-bottom:22px;}
+  .hero h1{font-family:var(--sans);font-weight:500;font-size:60px;line-height:1.05;letter-spacing:-.02em;max-width:880px;margin-bottom:26px;}
+  .hero p.sub{font-size:18px;color:var(--t6);max-width:640px;margin-bottom:40px;}
+  .cta{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:46px;}
+  .cta a{padding:14px 26px;border-radius:10px;font-size:15px;font-weight:500;transition:.18s;}
+  .cta .primary{background:var(--blue);color:#fff;}
+  .cta .primary:hover{background:#1d63d4;}
+  .cta .ghost{border:1px solid #2a2a2e;color:#fff;}
+  .cta .ghost:hover{border-color:#4a4a52;}
+  .now{font-family:var(--mono);font-size:14px;color:var(--t6);}
+
+  /* ---------- Stats ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);}
+  .stat{padding:48px 0;}
+  .stat .num{font-family:var(--sans);font-weight:600;font-size:44px;color:var(--ink);letter-spacing:-.02em;}
+  .stat .lab{font-family:var(--mono);font-size:12px;color:var(--t4);margin-top:8px;text-transform:uppercase;}
+
+  /* ---------- Section shells ---------- */
+  section.block{padding:120px 0;}
+  .kick{font-family:var(--mono);font-size:13px;color:var(--blue);margin-bottom:18px;letter-spacing:.04em;}
+  .kick.muted{color:var(--t4);}
+  h2.title{font-family:var(--sans);font-weight:500;font-size:34px;letter-spacing:-.02em;color:var(--ink);margin-bottom:18px;max-width:760px;}
+  .lead{font-size:17px;color:var(--t3);max-width:680px;margin-bottom:48px;}
+
+  /* ---------- Cards ---------- */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .card{border:1px solid var(--line);border-radius:var(--radius);padding:28px;background:var(--paper);transition:.18s;}
+  .card:hover{border-color:#cfcfcf;box-shadow:0 6px 24px rgba(0,0,0,.05);}
+  .card h3{font-family:var(--sans);font-weight:500;font-size:20px;color:var(--ink);margin-bottom:10px;}
+  .card p{font-size:14px;color:var(--t3);line-height:1.6;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+  .chip{font-family:var(--mono);font-size:12px;color:var(--t4);background:var(--mist);border:1px solid var(--line);padding:4px 10px;border-radius:6px;}
+
+  /* ---------- Timeline ---------- */
+  .timeline{display:flex;flex-direction:column;gap:0;max-width:760px;}
+  .row{display:flex;gap:32px;padding:24px 0;border-top:1px solid var(--line);}
+  .row:last-child{border-bottom:1px solid var(--line);}
+  .row .when{font-family:var(--mono);font-size:14px;color:var(--blue);min-width:140px;}
+  .row .what b{font-family:var(--sans);font-weight:500;color:var(--ink);font-size:17px;display:block;margin-bottom:4px;}
+  .row .what span{font-size:14px;color:var(--t3);}
+
+  /* ---------- Archive table ---------- */
+  table{width:100%;border-collapse:collapse;font-size:15px;}
+  thead th{font-family:var(--mono);font-size:12px;color:var(--t4);text-align:left;text-transform:uppercase;padding:14px 16px;border-bottom:1px solid var(--line);}
+  tbody td{padding:18px 16px;border-bottom:1px solid var(--line);color:var(--t2);}
+  tbody tr:hover{background:var(--mist);}
+  tbody td:first-child{font-family:var(--mono);color:var(--t4);}
+
+  /* ---------- Article list ---------- */
+  .articles{border-top:1px solid var(--line);}
+  .art{display:flex;align-items:center;justify-content:space-between;padding:22px 4px;border-bottom:1px solid var(--line);transition:.15s;cursor:pointer;}
+  .art:hover{padding-left:14px;}
+  .art .t{font-size:17px;color:var(--ink);font-family:var(--sans);font-weight:400;}
+  .art:hover .t{color:var(--blue);}
+  .art .meta{font-family:var(--mono);font-size:13px;color:var(--t5);white-space:nowrap;}
+
+  /* ---------- Contact (dark) ---------- */
+  .contact{background:var(--ink);color:#fff;padding:140px 0;}
+  .contact h2{font-family:var(--sans);font-weight:500;font-size:44px;letter-spacing:-.02em;margin-bottom:18px;}
+  .contact p{font-size:17px;color:var(--t6);max-width:520px;margin-bottom:48px;}
+  .methods{display:flex;flex-wrap:wrap;gap:48px;}
+  .methods .m .l{font-family:var(--mono);font-size:12px;color:var(--t4);margin-bottom:8px;}
+  .methods .m .v{font-family:var(--mono);font-size:15px;}
+  .methods .m a.v{color:var(--blue-soft);}
+  .methods .m a.v:hover{text-decoration:underline;}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--ink);color:#fff;padding:90px 0 40px;border-top:1px solid #1c1c1f;}
+  footer .f-top{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:32px;padding-bottom:48px;border-bottom:1px solid #1c1c1f;}
+  footer h2{font-family:var(--sans);font-weight:500;font-size:40px;letter-spacing:-.02em;}
+  footer .f-links{display:flex;gap:28px;flex-wrap:wrap;}
+  footer .f-links a{font-family:var(--mono);font-size:14px;color:var(--t6);}
+  footer .f-links a:hover{color:#fff;}
+  footer .copy{font-family:var(--mono);font-size:13px;color:var(--t4);margin-top:32px;}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:1024px){.wrap{padding:0 40px;}.hero h1{font-size:46px;}.grid3{grid-template-columns:1fr 1fr;}}
+  @media(max-width:680px){
+    .wrap{padding:0 22px;}
+    .menu{display:none;}.burger{display:block;font-size:22px;cursor:pointer;}
+    .hero{padding:100px 0 80px;}.hero h1{font-size:36px;}
+    .stats{grid-template-columns:1fr 1fr;}.stat{padding:32px 0;}
+    .grid3{grid-template-columns:1fr;}
+    section.block{padding:72px 0;}
+    .methods{gap:28px;}
+    footer h2{font-size:30px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <div class="wrap nav">
+    <a class="wordmark" data-go="home" href="#">
+      <span class="name">Davis</span>
+      <span class="mail">Davis1221@126.com</span>
+    </a>
+    <nav class="menu" id="menu">
+      <a data-go="about" href="#">关于</a>
+      <a data-go="projects" href="#">项目</a>
+      <a data-go="writing" href="#">文章</a>
+      <a data-go="knowledge" href="#">知识库</a>
+      <a data-go="contact" href="#">联系</a>
+      <a class="gh" href="https://github.com/Davis1221" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <div class="burger" id="burger">☰</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HOME ================= -->
+  <section class="view active" data-view="home">
+    <div class="hero">
+      <div class="wrap">
+        <div class="kicker">河海大学本硕 · 工业工程与管理</div>
+        <h1>把工程方法，用在小而真实的创造上。</h1>
+        <p class="sub">专注结果——把复杂留给自己，把简单交给用户。这里收录我做过的项目，和零散但真诚的技术笔记。</p>
+        <div class="cta">
+          <a class="primary" data-go="projects" href="#">查看项目 →</a>
+          <a class="ghost" data-go="contact" href="#">或者，联系我 →</a>
+        </div>
+        <div class="now">正在：做一个 Android App · 改造一辆小体积电动车</div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat"><div class="num">6+</div><div class="lab">Projects</div></div>
+        <div class="stat"><div class="num">4</div><div class="lab">Years Build</div></div>
+        <div class="stat"><div class="num">3</div><div class="lab">Focus Areas</div></div>
+        <div class="stat"><div class="num">100%</div><div class="lab">Handcrafted</div></div>
+      </div>
+    </div>
+
+    <section class="block">
+      <div class="wrap">
+        <div class="kick">ABOUT</div>
+        <h2 class="title">你好，我是 Davis。</h2>
+        <p class="lead">拥有工程管理和工业工程与管理教育背景。相信好的工程既是科学也是手艺——可维护、可观测、让人愿意长期维护。</p>
+        <div class="grid3">
+          <div class="card"><h3>Android App</h3><p>独立设计与开发，从需求到上架一手包办。</p></div>
+          <div class="card"><h3>小体积电车改造</h3><p>从结构到电路，亲手做轻量化改造。</p></div>
+          <div class="card"><h3>知识管理</h3><p>把生活、工作、学习里的输入，沉淀成可检索的体系。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" style="background:var(--mist);">
+      <div class="wrap">
+        <div class="kick">PROJECTS</div>
+        <h2 class="title">做过的一些东西</h2>
+        <div class="grid3">
+          <div class="card"><h3>Android App</h3><p>一个完全自己设计与开发的移动应用，覆盖架构、协程与组件化。</p>
+            <div class="chips"><span class="chip">Kotlin</span><span class="chip">Jetpack</span><span class="chip">Compose</span></div></div>
+          <div class="card"><h3>小体积电车改造</h3><p>结构到电子的轻量化改造项目，把工程方法用在真实硬件上。</p>
+            <div class="chips"><span class="chip">结构</span><span class="chip">电路</span><span class="chip">轻量化</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="wrap">
+        <div class="kick">WRITING</div>
+        <h2 class="title">写过的东西</h2>
+        <div class="articles">
+          <div class="art"><span class="t">用 Kotlin 协程重构一个老旧同步接口</span><span class="meta">2026.06 · 工作</span></div>
+          <div class="art"><span class="t">滇池畔的一次清晨骑行路线记录</span><span class="meta">2026.05 · 生活</span></div>
+          <div class="art"><span class="t">工业工程里的排队论速读笔记</span><span class="meta">2026.04 · 学习</span></div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="view" data-view="about">
+    <section class="block">
+      <div class="wrap">
+        <div class="kick">ABOUT ME</div>
+        <h2 class="title">河海大学本硕，把工程方法用在小而真实的创造上。</h2>
+        <p class="lead">我相信好的工程既是科学也是手艺。下面是我一路走来的轨迹，和正在做的事情。</p>
+
+        <div class="kick muted" style="margin-top:24px;">教育 / EDUCATION</div>
+        <div class="timeline">
+          <div class="row"><div class="when">2023 — 2026</div><div class="what"><b>硕士 · 工业工程与管理</b><span>河海大学 — 系统与优化、数据分析方向</span></div></div>
+          <div class="row"><div class="when">2019 — 2023</div><div class="what"><b>本科 · 工程管理</b><span>河海大学 — 工程方法与管理基础</span></div></div>
+        </div>
+
+        <div class="kick muted" style="margin-top:48px;">实践 / PRACTICE</div>
+        <div class="grid3" style="margin-top:20px;">
+          <div class="card"><h3>Android App 开发</h3><p>独立设计与开发，从需求拆解、架构到上架全程一手包办。</p>
+            <div class="chips"><span class="chip">Kotlin</span><span class="chip">Jetpack Compose</span><span class="chip">协程</span></div></div>
+          <div class="card"><h3>小体积电车改造</h3><p>从结构到电子的轻量化改造——把工程方法用在真实硬件上。</p>
+            <div class="chips"><span class="chip">结构</span><span class="chip">电路</span><span class="chip">轻量化</span></div></div>
+        </div>
+
+        <div class="kick muted" style="margin-top:48px;">技能 / SKILLS</div>
+        <div class="chips" style="margin-top:16px;">
+          <span class="chip">Android</span><span class="chip">Java / Kotlin</span><span class="chip">Python</span>
+          <span class="chip">数据分析</span><span class="chip">摄影</span><span class="chip">骑行</span>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section class="view" data-view="projects">
+    <section class="block">
+      <div class="wrap">
+        <div class="kick">PROJECTS</div>
+        <h2 class="title">做过的一些东西</h2>
+        <p class="lead">不追求大而全，只做小而真实、能长期维护的东西。</p>
+
+        <div class="grid3" style="margin-bottom:56px;">
+          <div class="card"><h3>Android App</h3><p>一个完全自己设计与开发的移动应用，覆盖架构、协程与组件化，从 0 到上架。</p>
+            <div class="chips"><span class="chip">Kotlin</span><span class="chip">Jetpack</span><span class="chip">Compose</span><span class="chip">Room</span></div></div>
+          <div class="card"><h3>小体积电车改造</h3><p>结构到电子的轻量化改造项目，把工程方法用在真实硬件上，亲手做轻量化。</p>
+            <div class="chips"><span class="chip">结构</span><span class="chip">电路</span><span class="chip">轻量化</span></div></div>
+        </div>
+
+        <div class="kick muted">档案 / ARCHIVE</div>
+        <table style="margin-top:16px;">
+          <thead><tr><th>年份</th><th>项目</th><th>角色</th><th>技术</th></tr></thead>
+          <tbody>
+            <tr><td>2026</td><td>Android App v2</td><td>独立开发</td><td>Kotlin · Compose</td></tr>
+            <tr><td>2025</td><td>小体积电车改造</td><td>设计 + 制造</td><td>结构 · 电路</td></tr>
+            <tr><td>2024</td><td>数据分析看板</td><td>开发</td><td>Python · Pandas</td></tr>
+            <tr><td>2023</td><td>毕业设计系统</td><td>负责人</td><td>Java · Spring</td></tr>
+            <tr><td>2022</td><td>校园工具小程序</td><td>全栈</td><td>JS · 云开发</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+
+  <!-- ================= WRITING ================= -->
+  <section class="view" data-view="writing">
+    <section class="block">
+      <div class="wrap">
+        <div class="kick">WRITING</div>
+        <h2 class="title">写过的东西</h2>
+        <p class="lead">零散但真诚的技术笔记——点开看看，或者只是翻翻标题。</p>
+        <div class="articles">
+          <div class="art"><span class="t">用 Kotlin 协程重构一个老旧同步接口</span><span class="meta">2026.06 · 工作</span></div>
+          <div class="art"><span class="t">滇池畔的一次清晨骑行路线记录</span><span class="meta">2026.05 · 生活</span></div>
+          <div class="art"><span class="t">工业工程里的排队论速读笔记</span><span class="meta">2026.04 · 学习</span></div>
+          <div class="art"><span class="t">把个人知识库从笔记软件迁移到自己的体系</span><span class="meta">2026.03 · 学习</span></div>
+          <div class="art"><span class="t">一次摄影后期的色彩思路拆解</span><span class="meta">2026.02 · 生活</span></div>
+          <div class="art"><span class="t">Android 组件化踩坑与收敛</span><span class="meta">2026.01 · 工作</span></div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- ================= KNOWLEDGE ================= -->
+  <section class="view" data-view="knowledge">
+    <section class="block">
+      <div class="wrap">
+        <div class="kick">KNOWLEDGE BASE</div>
+        <h2 class="title">把每天遇见的知识，收拢成自己的体系。</h2>
+        <p class="lead">这里收集我在生活、工作与学习中沉淀下来的笔记、方法与实践——不追求大而全，只求能被检索、被复用、随时间生长。</p>
+
+        <div class="kick muted">三大来源 / SOURCES</div>
+        <div class="grid3" style="margin-top:20px;">
+          <div class="card"><h3>生活</h3><p>摄影、骑行、咖啡、家居——把日常的好奇留下来。</p>
+            <div class="chips"><span class="chip">摄影笔记</span><span class="chip">骑行路线</span><span class="chip">咖啡手冲</span></div></div>
+          <div class="card"><h3>工作</h3><p>Android 开发、工程方法、项目管理——把经验变成可复用的资产。</p>
+            <div class="chips"><span class="chip">Android 架构</span><span class="chip">Kotlin 协程</span><span class="chip">需求拆解</span></div></div>
+          <div class="card"><h3>学习</h3><p>课程、论文、读书——把输入变成自己的语言。</p>
+            <div class="chips"><span class="chip">工业工程</span><span class="chip">数据分析</span><span class="chip">论文速读</span></div></div>
+        </div>
+
+        <div class="kick muted" style="margin-top:48px;">体系的原则 / PRINCIPLES</div>
+        <div class="chips" style="margin-top:16px;">
+          <span class="chip">原子化笔记</span><span class="chip">双向链接</span><span class="chip">可被检索</span><span class="chip">持续生长</span>
+        </div>
+
+        <div class="kick muted" style="margin-top:48px;">最近沉淀 / RECENT</div>
+        <div class="articles" style="margin-top:16px;">
+          <div class="art"><span class="t">用 Kotlin 协程重构一个老旧同步接口</span><span class="meta">2026.06 · 工作</span></div>
+          <div class="art"><span class="t">滇池畔的一次清晨骑行路线记录</span><span class="meta">2026.05 · 生活</span></div>
+          <div class="art"><span class="t">工业工程里的排队论速读笔记</span><span class="meta">2026.04 · 学习</span></div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="view" data-view="contact">
+    <div class="contact">
+      <div class="wrap">
+        <h2>一起做点东西？</h2>
+        <p>如果你也在做有意思的小项目，或者想聊聊工程、摄影和骑行，欢迎随时找我。</p>
+        <div class="methods">
+          <div class="m"><div class="l">EMAIL</div><a class="v" href="mailto:Davis1221@126.com">Davis1221@126.com</a></div>
+          <div class="m"><div class="l">GITHUB</div><a class="v" href="https://github.com/Davis1221" target="_blank" rel="noopener">github.com/Davis1221</a></div>
+          <div class="m"><div class="l">X / TWITTER</div><a class="v" href="https://x.com/Davis1221" target="_blank" rel="noopener">@Davis1221</a></div>
+          <div class="m"><div class="l">微信公众号</div><div class="v">Davis1221</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <h2>一起做点东西？</h2>
+      <div class="f-links">
+        <a data-go="about" href="#">关于</a>
+        <a data-go="projects" href="#">项目</a>
+        <a data-go="writing" href="#">文章</a>
+        <a data-go="knowledge" href="#">知识库</a>
+        <a href="mailto:Davis1221@126.com">Email</a>
+        <a href="https://github.com/Davis1221" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://x.com/Davis1221" target="_blank" rel="noopener">X</a>
+      </div>
+    </div>
+    <div class="copy">2026 — Davis · Built with Ardot &amp; HTML</div>
+  </div>
+</footer>
+
+<script>
+  const views = document.querySelectorAll('.view');
+  const triggers = document.querySelectorAll('[data-go]');
+  function go(name){
+    views.forEach(v => v.classList.toggle('active', v.dataset.view === name));
+    document.querySelectorAll('#menu a[data-go]').forEach(a =>
+      a.classList.toggle('active', a.dataset.go === name));
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+  triggers.forEach(t => t.addEventListener('click', e => {
+    e.preventDefault();
+    go(t.dataset.go);
+  }));
+  // mobile burger toggles menu visibility
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('menu');
+  burger && burger.addEventListener('click', () => {
+    menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+  });
+</script>
+</body>
+</html>
